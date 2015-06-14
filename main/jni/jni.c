@@ -8,7 +8,7 @@ JNIEXPORT void JNICALL Java_com_example_imageviewer5000_ImageViewer5000JNIWrappe
  
 JNIEXPORT void JNICALL Java_com_example_imageviewer5000_ImageViewer5000JNIWrapper_on_1surface_1changed
     (JNIEnv * env, jclass cls, jint width, jint height) {
-    on_surface_changed();
+    on_surface_changed(width, height);
 }
  
 JNIEXPORT void JNICALL Java_com_example_imageviewer5000_ImageViewer5000JNIWrapper_on_1draw_1frame
