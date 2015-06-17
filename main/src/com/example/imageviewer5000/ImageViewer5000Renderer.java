@@ -1,6 +1,7 @@
 package com.example.imageviewer5000;
 
 import java.nio.ByteBuffer;
+
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
@@ -12,6 +13,8 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 import android.os.SystemClock;
+
+//IT CANNOT FIND THE OBJ FILE - MOVE OR PRELOAD!
 
 public class ImageViewer5000Renderer implements GLSurfaceView.Renderer {
 

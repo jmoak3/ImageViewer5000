@@ -11,7 +11,8 @@ obj/local/armeabi-v7a/objs/imageviewer5000/__/__/common/imageviewer5000.o: \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/_types.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/machine/_types.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/_wchar_limits.h \
- jni/../../common/3DMath.h
+ jni/../../common/3DMath.h jni/../../common/TriangleMesh.h \
+ jni/../../common/Material.h jni/../../common/ColorShader.h
 
 jni/../../common/imageviewer5000.h:
 
@@ -38,3 +39,9 @@ jni/glwrapper.h:
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/_wchar_limits.h:
 
 jni/../../common/3DMath.h:
+
+jni/../../common/TriangleMesh.h:
+
+jni/../../common/Material.h:
+
+jni/../../common/ColorShader.h:
