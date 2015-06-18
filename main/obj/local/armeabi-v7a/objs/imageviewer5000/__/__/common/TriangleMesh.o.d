@@ -25,6 +25,7 @@ obj/local/armeabi-v7a/objs/imageviewer5000/__/__/common/TriangleMesh.o: \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/alloca.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/strings.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/memory.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/math.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/limits.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/limits.h \
@@ -87,6 +88,8 @@ jni/../../common/MeshLoad.h:
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/strings.h:
 
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/memory.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h:
 
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/math.h:
 

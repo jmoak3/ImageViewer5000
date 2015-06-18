@@ -3,42 +3,28 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <android/log.h>
 
 void FormTriangleMesh(char * fileName, TriangleMesh * mesh, Transform * t, Material * mat)
 {
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "111");
 	//printf("Inside FormTriangleMesh\n");
 	int ** indices = malloc(sizeof(int*));
 	Vector3 ** points = malloc(sizeof(Vector3*));
-	Vector3 ** normals = malloc(sizeof(Vector3*));
-	Vector2 ** tex = malloc(sizeof(Vector2*));
-	int ** texInds = malloc(sizeof(int*));
-	int ** normalInds = malloc(sizeof(int*));
 	int numInd = 0;
 	int numPts = 0;
-	int numTex = 0;
-	int numTexInds = 0;
-	int numNormals = 0;
-	int numNormalInds = 0;
 	//printf("Loading Mesh:\n");
-	LoadMesh(fileName, indices, points, tex, texInds, normals, normalInds,
-		          &numInd, &numPts, &numTex, &numTexInds, &numNormals, &numNormalInds);
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "7777");
+	LoadMesh(fileName, indices, points, &numInd, &numPts);
 	//printf("Mesh Loaded Correctly\n");
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "5555");
 
 	mesh->material = *mat;
 	mesh->numTris = numInd/3;
 	mesh->numVerts = numPts;
-	mesh->numTex = numTex;
-	mesh->numTexInds = numTexInds;
-	mesh->numNormals = numNormals;
-	mesh->numNormalInds = numNormalInds;
 	mesh->vertIndices = *indices;
 	mesh->vertPoints = *points;
-	mesh->texCoords = *tex;
-	mesh->texIndices = *texInds;
-	mesh->normals = *normals;
-	mesh->normalIndices = *normalInds;
-
-	printf("tris %i tex %i norm %i\n", numInd/3, numTex, numNormals);
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "333");
 
 	int i=0;
 	for (i=0;i<numPts;++i) // Transform to world space!
@@ -59,9 +45,6 @@ void GetTrianglesFromMesh(TriangleMesh * mesh, Triangle * tri)
 	{
 		Triangle t;
 		t.mesh = mesh;
-		t.vert = &(mesh->vertIndices[3*i]);
-		t.tex = &(mesh->texIndices[3*i]);
-		t.normal = &(mesh->normalIndices[3*i]);
 		//printf("Tri verts initialized\n");
 		Vector3 g = mesh->vertPoints[0];
 		//printf("%f %f %f\n", g.x, g.y, g.z);
@@ -88,13 +71,7 @@ void PrepareRasterizedDataBuffers(Triangle *tris, TriangleMesh *mesh,
 	(*outMesh)->shapeID = mesh->shapeID;	
 	(*outMesh)->numTris = mesh->numTris;	
 	(*outMesh)->numVerts = mesh->numVerts;	
-	(*outMesh)->numTex = mesh->numTex;	
-	(*outMesh)->numTexInds = mesh->numTexInds;	
-	(*outMesh)->texCoords = mesh->texCoords;
-	(*outMesh)->texIndices = mesh->texIndices;
 	(*outMesh)->vertIndices = mesh->vertIndices;
-	(*outMesh)->normals = mesh->normals;
-	(*outMesh)->normalIndices = mesh->normalIndices;
 	(*outMesh)->vertPoints = malloc(sizeof(Vector3)*mesh->numVerts);
 	int k;
 	for (k=0;k<mesh->numVerts;++k)
@@ -106,8 +83,6 @@ void PrepareRasterizedDataBuffers(Triangle *tris, TriangleMesh *mesh,
 	{
 		(*outTris)[k].vert = tris[k].vert;
 		(*outTris)[k].mesh = (*outMesh);
-		(*outTris)[k].tex  = tris[k].tex;
-		(*outTris)[k].normal  = tris[k].normal;
 	}
 }
 

@@ -6,34 +6,24 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
+#include <android/log.h>
 
-int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, 
-	         Vector2 ** ptex, int ** ptexinds, 
-	         Vector3 ** pnormals, int ** pnorminds,
-	         int *numInds, int *numPts, int *numTex, int *numTexInds, 
-	         int *numNormals, int *numNormalInds)
+int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds, int *numPts)
 {
 	char header[64];
 	FILE *fp = fopen(fileName, "r");
-	printf("File found!\n");
+
+	if (fp==NULL)
+    	__android_log_write(ANDROID_LOG_INFO, "NATIVE", "FUCK");
+
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "8888");
 	*numPts = 0;
 	*numInds = 0;
-	*numTex = 0;
-	*numTexInds = 0;
-	*numNormals = 0;
-	*numNormalInds = 0;
 	int sizePts = 36;
 	int sizeInds = 12;
-	int sizeTex = 36;
-	int sizeTexInds = 12;
-	int sizeNormals = 36;
-	int sizeNormalInds = 12;
 	Vector3 *points = malloc(sizeof(Vector3)*sizePts);
 	int *indices = malloc(sizeof(int)*sizeInds);
-	Vector3 *normals = malloc(sizeof(Vector3)*sizeNormals);
-	int *normalInds = malloc(sizeof(int)*sizeNormalInds);
-	Vector2 *tex = malloc(sizeof(Vector2)*sizeTex);
-	int *texInds = malloc(sizeof(int)*sizeTexInds);
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "0000444");
 	//printf("nums and temp ptrs initialized!\n");
 	int vVtVn = 0;
 	int done = 0;
@@ -65,56 +55,6 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints,
 			}
 			//printf("\n");
 		}
-		else if (strcmp(header, "vn")==0)
-		{
-			vVtVn = 1;
-			//printf("Adding Normals:");
-			fscanf(fp, "%s", data);
-			normals[*numNormals].x = atof(data);
-			fscanf(fp, "%s", data);
-			normals[*numNormals].y = atof(data);
-			fscanf(fp, "%s", data);
-			normals[*numNormals].z = atof(data);
-			NormalizeVec3(&(normals[*numNormals]), &(normals[*numNormals]));
-			//printf("%f %f %f", 	normals[*numNormals].x, 
-			//	normals[*numNormals].y, normals[*numNormals].z);
-			++(*numNormals);
-			if (*numNormals >= sizeNormals)
-			{
-				Vector3 * temp = (Vector3*)malloc(sizeof(Vector3)*sizeNormals*2);
-				memcpy(temp, normals, sizeof(Vector3)*sizeNormals);
-				Vector3 * tempNormals = normals;
-				normals = temp;
-				free(tempNormals);
-				tempNormals = 0;
-				temp = 0;
-				sizeNormals = 2*sizeNormals;
-			}
-			//printf("\n");
-		}
-		else if (strcmp(header, "vt")==0)
-		{
-			vVtVn = 1;
-			//printf("Adding TexCoords:");
-			fscanf(fp, "%s", data);
-			tex[*numTex].x = atof(data);
-			fscanf(fp, "%s", data);
-			tex[*numTex].y = atof(data);
-			//printf("%f %f", tex[*numTex].x, tex[*numTex].y);
-			++(*numTex);
-			if (*numTex >= sizeTex)
-			{
-				Vector2 * temp = (Vector2*)malloc(sizeof(Vector2)*sizeTex*2);
-				memcpy(temp, tex, sizeof(Vector2)*sizeTex);
-				Vector2 * tempTex = tex;
-				tex = temp;
-				free(tempTex);
-				tempTex = 0;
-				temp = 0;
-				sizeTex = 2*sizeTex;
-			}
-			//printf("\n");
-		}
 		else if (strcmp(header, "f")==0)
 		{
 			//printf("Adding Indices:");
@@ -133,112 +73,31 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints,
 				fscanf(fp, "%s", read);
 				//printf("Read %s\n", read);
 
-				if (!vVtVn)
+				
+				for (j=0;j<128;++j)
 				{
-					for (j=0;j<128;++j)
+					if (read[j] == '/' && read[j+1] == '/')
 					{
-						if (read[j] == '/' && read[j+1] == '/')
-						{
-							j+=2;
-							break;
-						}
-						tri[j] = read[j];
+						j+=2;
+						break;
 					}
-					int bummy = atoi(tri);
-					indices[*numInds] = bummy-1;
-					//printf("New Ind %i ", indices[*numInds]);
-					++(*numInds);
-					//printf("NumInds %i", *numInds);
-					if (*numInds >= sizeInds) 
-					{
-						int * temp = (int*)malloc(sizeof(int)*sizeInds*2);
-						memcpy(temp, indices, sizeof(int)*sizeInds);
-						int * tempInds = indices;
-						indices = temp;
-						free(tempInds);
-						tempInds = 0;
-						temp = 0;
-						sizeInds = 2*sizeInds;
-					}
+					tri[j] = read[j];
 				}
-				else 
+				int bummy = atoi(tri);
+				indices[*numInds] = bummy-1;
+				//printf("New Ind %i ", indices[*numInds]);
+				++(*numInds);
+				//printf("NumInds %i", *numInds);
+				if (*numInds >= sizeInds) 
 				{
-					int k; j=0;
-					for (k=0;k<3;++k)
-					{ 
-						int t=0;
-						for (t=0;t<128;++t)
-							tri[t] = 0;
-						t=0;
-						for (;j<128;++j)
-						{
-							if (read[j] == '/' || read[j] == ' ')
-							{
-								j+=1;
-								break;
-							}
-							tri[t] = read[j];
-							++t;
-						}
-						int bummy = atoi(tri);
-						if (k==0)
-						{ 
-							indices[*numInds] = bummy-1;
-							//printf("NewInd %i ", indices[*numInds]);
-							++(*numInds);
-							//printf("NumInds %i", *numInds);
-							if (*numInds >= sizeInds) 
-							{
-								int * temp = (int*)malloc(sizeof(int)*sizeInds*2);
-								memcpy(temp, indices, sizeof(int)*sizeInds);
-								int * tempInds = indices;
-								indices = temp;
-								free(tempInds);
-								tempInds = 0;			
-								temp = 0;			
-								sizeInds = 2*sizeInds;
-							}
-							//printf("\n");
-						}
-						if (k==1)
-						{
-							texInds[*numTexInds] = bummy-1;
-							//printf("NewTexInd %i ", texInds[*numTexInds]);
-							++(*numTexInds);
-							//printf("NumTexInd %i", *numTexInds);
-							if (*numTexInds >= sizeTexInds)
-							{
-								int * temp = (int*)malloc(sizeof(int)*sizeTexInds*2);
-								memcpy(temp, texInds, sizeof(int)*sizeTexInds);
-								int * tempInds = texInds;
-								texInds = temp;
-								free(tempInds);
-								tempInds = 0;
-								temp = 0;
-								sizeTexInds = 2*sizeTexInds;
-							}
-							//printf("\n");
-						}
-						if (k==2)
-						{
-							normalInds[*numNormalInds] = bummy-1;
-							//printf("NewNormalInd %i ", normalInds[*numInds]);
-							++(*numNormalInds);
-							//printf("numNormalInds %i", *numNormalInds);
-							if (*numNormalInds >= sizeNormalInds)
-							{
-								int * temp = (int*)malloc(sizeof(int)*sizeNormalInds*2);
-								memcpy(temp, normalInds, sizeof(int)*sizeNormalInds);
-								int * tempInds = normalInds;
-								normalInds = temp;
-								free(tempInds);
-								tempInds = 0;
-								temp = 0;
-								sizeNormalInds = 2*sizeNormalInds;
-							}
-							//printf("\n");
-						}
-					}
+					int * temp = (int*)malloc(sizeof(int)*sizeInds*2);
+					memcpy(temp, indices, sizeof(int)*sizeInds);
+					int * tempInds = indices;
+					indices = temp;
+					free(tempInds);
+					tempInds = 0;
+					temp = 0;
+					sizeInds = 2*sizeInds;
 				}
 			}
 			//printf("\n");
@@ -249,7 +108,7 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints,
 		}
 	}
 	fclose(fp);
-	printf("End of reading\n");
+    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "123455");
 
 	//*pindices = malloc(sizeof(int)*(*numInds));
 	//*ppoints = malloc(sizeof(Vector3)*(*numPts));
@@ -258,28 +117,6 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints,
 	//memcpy(*ppoints, points, sizeof(Vector3)*(*numPts));
 	*ppoints = points;
 	*pindices = indices;
-	*ptex = tex;
-	*ptexinds = texInds;
-	*pnormals = normals;
-	*pnorminds = normalInds;
-
-	printf("Copied pointers \n");
-    
-	if (0)
-	{	
-		int i=0;
-		fp = fopen("test.txt", "w");
-		for (i=0;i<*numPts;i+=1)
-		{
-			fprintf(fp, "%f, %f, %f\n", (*ppoints)[i].x, (*ppoints)[i].y, (*ppoints)[i].z);
-		}
-		for (i=0;i<*numInds;i+=3)
-		{
-			fprintf(fp, "%i, %i, %i\n", (*pindices)[i], (*pindices)[i+1], (*pindices)[i+2]);
-		}
-		fclose(fp);
-	}
-	return 1;
 }
 
 #endif

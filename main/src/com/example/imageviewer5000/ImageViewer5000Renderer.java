@@ -14,15 +14,15 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
-//IT CANNOT FIND THE OBJ FILE - MOVE OR PRELOAD!
-
 public class ImageViewer5000Renderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		System.out.println("HI11");
 		ImageViewer5000JNIWrapper.on_surface_created();
+		System.out.println("BIE11");		
 	}
-
+	
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		ImageViewer5000JNIWrapper.on_surface_changed(width, height);
@@ -30,7 +30,8 @@ public class ImageViewer5000Renderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		System.out.println("HI");
 		ImageViewer5000JNIWrapper.on_draw_frame();
+		System.out.println("BIE");
 	}
-
 }

@@ -10,6 +10,6 @@ LOCAL_SRC_FILES := ../../common/imageviewer5000.c \
                    ../../common/TriangleMesh.c \
                    ../../common/ColorShader.c \
                    
-LOCAL_LDLIBS := -lGLESv2 -landroid
+LOCAL_LDLIBS := -lGLESv2 -landroid -L$(SYSROOT)/usr/lib -llog 
 
 include $(BUILD_SHARED_LIBRARY)
