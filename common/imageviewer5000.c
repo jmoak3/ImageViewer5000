@@ -16,57 +16,23 @@ static Triangle* DragonTris;
 
 static ColorShader* Shader;
 
+//Calls AAsset* asset = AAssetManager_open(asset_manager, fileName, AASSET_MODE_STREAMING);,
+//which gets the assets 
 static void LoadShader()
 {
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "HIII!!");
 	GLuint techID = MakeShader("content/shader.vsh", "content/shader.fsh");
 	GetTech(techID, Shader);
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "BIEE!!");
 }
-
-
-//USE ASSET MANAGER TO INCLUDE THINGS IN ASSETS FOLDER!!
-/*#include "platform_asset_utils.h"
-#include "macros.h"
-#include "platform_log.h"
-#include <android/asset_manager_jni.h>
-#include <assert.h>
-
-static AAssetManager* asset_manager;
-
-JNIEXPORT void JNICALL Java_com_learnopengles_airhockey_platform_PlatformFileUtils_init_1asset_1manager(JNIEnv * env, jclass jclazz, jobject java_asset_manager) {
-	UNUSED(jclazz);
-	asset_manager = AAssetManager_fromJava(env, java_asset_manager);
-}
-
-FileData get_asset_data(const char* relative_path) {
-	assert(relative_path != NULL);
-	AAsset* asset = AAssetManager_open(asset_manager, relative_path, AASSET_MODE_STREAMING);
-	assert(asset != NULL);
-
-	return (FileData) { AAsset_getLength(asset), AAsset_getBuffer(asset), asset };
-}
-
-void release_asset_data(const FileData* file_data) {
-	assert(file_data != NULL);
-	assert(file_data->file_handle != NULL);
-	AAsset_close((AAsset*)file_data->file_handle);
-}
-
-*/
 
 static void LoadDragon()
 {
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "B22I222EE!!");
 	Vector3 o; o.x = 0.f; o.y = 0.f; o.z = 0.f;
 	Transform or = MakeTranslation(&o);
 
 	//Initializemesh
 	DragonMesh = malloc(sizeof(TriangleMesh));
 	Material mat; mat.red = 255.f; mat.green = 0.f; mat.blue = 0.f; mat.filler = 0.f;
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "9999");
 	FormTriangleMesh("content/sphere.obj", DragonMesh, &or, &mat);
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "451342!!");
 }
 
 static void SetupDragonTrans()

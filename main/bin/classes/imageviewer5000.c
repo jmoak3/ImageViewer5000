@@ -16,27 +16,23 @@ static Triangle* DragonTris;
 
 static ColorShader* Shader;
 
-
+//Calls AAsset* asset = AAssetManager_open(asset_manager, fileName, AASSET_MODE_STREAMING);,
+//which gets the assets 
 static void LoadShader()
 {
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "HIII!!");
 	GLuint techID = MakeShader("content/shader.vsh", "content/shader.fsh");
 	GetTech(techID, Shader);
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "BIEE!!");
 }
 
 static void LoadDragon()
 {
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "B22I222EE!!");
 	Vector3 o; o.x = 0.f; o.y = 0.f; o.z = 0.f;
 	Transform or = MakeTranslation(&o);
 
 	//Initializemesh
 	DragonMesh = malloc(sizeof(TriangleMesh));
 	Material mat; mat.red = 255.f; mat.green = 0.f; mat.blue = 0.f; mat.filler = 0.f;
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "9999");
 	FormTriangleMesh("content/sphere.obj", DragonMesh, &or, &mat);
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "451342!!");
 }
 
 static void SetupDragonTrans()
@@ -71,8 +67,8 @@ void on_surface_created()
 {
 	glClearColor(0.f, 0.f, 1.0f, 0.0f);
 
-	LoadShader();
 	LoadDragon();
+	LoadShader();
 }
 
 void on_surface_changed(int width, int height)

@@ -1,5 +1,7 @@
 #include "ColorShader.h"
 #include <stdio.h>
+#include "Assets.h"
+
 
 void GetTech(GLuint tech, ColorShader *shader)
 {	
@@ -40,49 +42,13 @@ GLuint BuildTech(GLchar * vert, GLint vertLength, GLchar * frag, GLint fragLengt
 	return LinkTech(vertexshader, fragshader);
 }
 
-
 GLuint MakeShader(GLchar * vFile, GLchar * fFile)
 {
-	FILE *fp;
-	long vertSize;
-	char *vertText;
-
-	fp = fopen (vFile, "rb" );
-	if( !fp ) perror(vFile),exit(1);
-
-	fseek(fp, 0L, SEEK_END);
-	vertSize = ftell(fp);
-	rewind(fp);
-
-	vertSize = calloc( 1, vertSize+1 );
-	if( !vertSize ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
-
-	if(1!=fread(vertSize, vertSize, 1, fp))
-	  fclose(fp),free(vertSize),fputs("entire read fails",stderr),exit(1);
-
-	fclose(fp);
-
-	long fragSize;
-	char *fragText;
-
-	fp = fopen (vFile , "rb" );
-	if( !fp ) perror("blah.txt"),exit(1);
-
-	fseek(fp, 0L, SEEK_END);
-	fragSize = ftell(fp);
-	rewind(fp);
-
-	fragText = calloc(1, fragSize+1);
-	if( !fragText ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
-
-	if(1!=fread(fragText, fragSize, 1, fp))
-	  fclose(fp),free(fragText),fputs("entire read fails",stderr),exit(1);
-
-	fclose(fp);
-
+	GLchar vertText, fragText;
+	GLuint vertSize, fragSize;
+    GetAsset(vFile, &vertText, &vertSize);
+    GetAsset(vFile, &vertText, &vertSize);
 	const GLuint techID = BuildTech(vertText, vertSize, fragText, fragSize);
 
-	free(vertText);
-	free(fragText);
 	return techID;
 }

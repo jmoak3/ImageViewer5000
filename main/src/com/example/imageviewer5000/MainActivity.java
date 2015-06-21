@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 		
 		if (supportsES2) {
 			mGLSurfaceView.setEGLContextClientVersion(2);
-			mGLSurfaceView.setRenderer(new ImageViewer5000Renderer());
+			mGLSurfaceView.setRenderer(new ImageViewer5000Renderer(this));
 		}
 		
 		setContentView(mGLSurfaceView);

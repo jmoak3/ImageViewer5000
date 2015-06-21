@@ -8,22 +8,22 @@
 #include <string.h>
 #include <android/log.h>
 
+
 int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds, int *numPts)
 {
 	char header[64];
+
 	FILE *fp = fopen(fileName, "r");
 
 	if (fp==NULL)
     	__android_log_write(ANDROID_LOG_INFO, "NATIVE", "FUCK");
 
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "8888");
 	*numPts = 0;
 	*numInds = 0;
 	int sizePts = 36;
 	int sizeInds = 12;
 	Vector3 *points = malloc(sizeof(Vector3)*sizePts);
 	int *indices = malloc(sizeof(int)*sizeInds);
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "0000444");
 	//printf("nums and temp ptrs initialized!\n");
 	int vVtVn = 0;
 	int done = 0;
