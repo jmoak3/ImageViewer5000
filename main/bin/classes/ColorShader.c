@@ -1,7 +1,7 @@
 #include "ColorShader.h"
 #include <stdio.h>
 #include "Assets.h"
-
+#include <android/log.h>
 
 void GetTech(GLuint tech, ColorShader *shader)
 {	
@@ -14,24 +14,18 @@ void GetTech(GLuint tech, ColorShader *shader)
 GLuint CompileTech(GLenum type, GLchar* source, GLint length) 
 {
 	GLuint shaderID = glCreateShader(type);
-	GLint ignore;
 	glShaderSource(shaderID, 1, (const GLchar **)&source, &length);
 	glCompileShader(shaderID);
-	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &ignore);
-
 	return shaderID;
 }
 
 GLuint LinkTech(GLuint vertexshader, GLuint fragshader) 
 {
 	GLuint techID = glCreateProgram();
-	GLint ignore;
 
 	glAttachShader(techID, vertexshader);
 	glAttachShader(techID, fragshader);
 	glLinkProgram(techID);
-	glGetProgramiv(techID, GL_LINK_STATUS, &ignore);
-
 	return techID;
 }
 
@@ -44,11 +38,19 @@ GLuint BuildTech(GLchar * vert, GLint vertLength, GLchar * frag, GLint fragLengt
 
 GLuint MakeShader(GLchar * vFile, GLchar * fFile)
 {
-	GLchar vertText, fragText;
+/*
+	GLchar vertText[4096] = 
+    "uniform mat4 MVPMatrix;\nattribute vec4 Position;\nvoid main()\n{\n    gl_Position = MVPMatrix * Position;\n}";
+    GLchar fragText[4096] =
+    "precision mediump float;\nuniform vec4 Color;\nvoid main()\n{    gl_FragColor = Color;\n}";
+	GLuint vertSize = 103, fragSize = 85;
+*/
+	GLchar vertText[4096], fragText[4096];
 	GLuint vertSize, fragSize;
+
     GetAsset(vFile, &vertText, &vertSize);
-    GetAsset(vFile, &vertText, &vertSize);
-	const GLuint techID = BuildTech(vertText, vertSize, fragText, fragSize);
+    GetAsset(fFile, &fragText, &fragSize);
+	GLuint techID = BuildTech(vertText, vertSize, fragText, fragSize);
 
 	return techID;
 }

@@ -24,7 +24,8 @@ obj/local/armeabi-v7a/objs/imageviewer5000/__/__/common/ColorShader.o: \
  jni/../../common/Assets.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager_jni.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager.h \
- /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h
 
 jni/../../common/ColorShader.h:
 
@@ -77,3 +78,5 @@ jni/../../common/Assets.h:
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager.h:
 
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h:

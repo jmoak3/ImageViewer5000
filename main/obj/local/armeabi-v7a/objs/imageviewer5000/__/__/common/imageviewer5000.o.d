@@ -13,6 +13,19 @@ obj/local/armeabi-v7a/objs/imageviewer5000/__/__/common/imageviewer5000.o: \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/_wchar_limits.h \
  jni/../../common/3DMath.h jni/../../common/TriangleMesh.h \
  jni/../../common/Material.h jni/../../common/ColorShader.h \
+ jni/../../common/Assets.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager_jni.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/types.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/posix_types.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/stddef.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/compiler.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/asm/posix_types.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/asm/types.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/types.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/machine/kernel.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/sysmacros.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h
 
 jni/../../common/imageviewer5000.h:
@@ -46,5 +59,31 @@ jni/../../common/TriangleMesh.h:
 jni/../../common/Material.h:
 
 jni/../../common/ColorShader.h:
+
+jni/../../common/Assets.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager_jni.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/asset_manager.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/types.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/posix_types.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/stddef.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/compiler.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/asm/posix_types.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/asm/types.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/linux/types.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/machine/kernel.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/sysmacros.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h:
 
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h:

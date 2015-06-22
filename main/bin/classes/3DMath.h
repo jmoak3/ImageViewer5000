@@ -12,7 +12,7 @@ typedef struct
 	float x;
 	float y;
 	float z;
-	float filler;
+	//float filler;
 } Vector3;
 
 typedef struct 

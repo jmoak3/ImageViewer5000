@@ -3,7 +3,7 @@
 #include "3DMath.h"
 #include "TriangleMesh.h"
 #include "ColorShader.h"
-
+#include "Assets.h"
 #include <android/log.h>
 
 static Transform Model;
@@ -12,15 +12,13 @@ static Transform Projection;
 static Transform ViewProjection;
 static Transform ModelViewProjection;
 static TriangleMesh* DragonMesh;
-static Triangle* DragonTris;
 
 static ColorShader* Shader;
 
-//Calls AAsset* asset = AAssetManager_open(asset_manager, fileName, AASSET_MODE_STREAMING);,
-//which gets the assets 
 static void LoadShader()
 {
 	GLuint techID = MakeShader("content/shader.vsh", "content/shader.fsh");
+	Shader = malloc(sizeof(ColorShader));
 	GetTech(techID, Shader);
 }
 
@@ -31,7 +29,7 @@ static void LoadDragon()
 
 	//Initializemesh
 	DragonMesh = malloc(sizeof(TriangleMesh));
-	Material mat; mat.red = 255.f; mat.green = 0.f; mat.blue = 0.f; mat.filler = 0.f;
+	Material mat; mat.red = 1.f; mat.green = 0.f; mat.blue = 0.f; mat.filler = 0.f;
 	FormTriangleMesh("content/sphere.obj", DragonMesh, &or, &mat);
 }
 
@@ -65,18 +63,18 @@ static void DrawDragon()
 
 void on_surface_created()
 {
-	glClearColor(0.f, 0.f, 1.0f, 0.0f);
+	glClearColor(0.f, 0.f, 0.0f, 0.0f);
 
-	LoadDragon();
 	LoadShader();
+	LoadDragon();
 }
 
 void on_surface_changed(int width, int height)
 {
 	glViewport(0, 0, width, height);
-	MakePerspectiveTrans(45, (float)width/(float)height, 1.0f, 10.0f, &Projection);
+	MakePerspectiveTrans(45, (float)width/(float)height, 0.1f, 1.0f, &Projection);
 
-	Vector3 eye; eye.x = 0.f; eye.y = 1.f; eye.z = 1.f;
+	Vector3 eye; eye.x = 0.f; eye.y = 0.5f; eye.z = 0.5f;
 	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
 	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
 	MakeLookAtTrans(&eye, &center, &up, &View);

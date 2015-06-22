@@ -7,24 +7,20 @@
 
 void FormTriangleMesh(char * fileName, TriangleMesh * mesh, Transform * t, Material * mat)
 {
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "111");
 	//printf("Inside FormTriangleMesh\n");
 	int ** indices = malloc(sizeof(int*));
 	Vector3 ** points = malloc(sizeof(Vector3*));
 	int numInd = 0;
 	int numPts = 0;
 	//printf("Loading Mesh:\n");
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "7777");
 	LoadMesh(fileName, indices, points, &numInd, &numPts);
 	//printf("Mesh Loaded Correctly\n");
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "5555");
 
 	mesh->material = *mat;
 	mesh->numTris = numInd/3;
 	mesh->numVerts = numPts;
 	mesh->vertIndices = *indices;
 	mesh->vertPoints = *points;
-    __android_log_write(ANDROID_LOG_INFO, "NATIVE", "333");
 
 	int i=0;
 	for (i=0;i<numPts;++i) // Transform to world space!
