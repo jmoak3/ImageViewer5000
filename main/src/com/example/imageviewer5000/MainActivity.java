@@ -1,6 +1,6 @@
 package com.example.imageviewer5000;
 
-import android.support.v7.app.ActionBarActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
 	private GLSurfaceView mGLSurfaceView;
 	
@@ -25,10 +25,11 @@ public class MainActivity extends ActionBarActivity {
 		final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
 		final boolean supportsES2 = configurationInfo.reqGlEsVersion >= 0x20000;
 		
-		if (supportsES2) {
-			mGLSurfaceView.setEGLContextClientVersion(2);
-			mGLSurfaceView.setRenderer(new ImageViewer5000Renderer(this));
-		}
+
+		//if (supportsES2) {
+		mGLSurfaceView.setEGLContextClientVersion(2);
+		mGLSurfaceView.setRenderer(new ImageViewer5000Renderer(this));
+		//}
 		
 		setContentView(mGLSurfaceView);
 	}
@@ -39,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will

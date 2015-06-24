@@ -214,14 +214,14 @@ void MakeLookAtTrans(Vector3 * eye, Vector3 * center, Vector3 * up, Transform * 
 	outT->m[3][2] =  0.f;
 	outT->m[3][3] =  1.f;
 
-	Vector3 v1; v1.x = -eye->x; v1.y = -eye->y; v1.z = -eye->z;
-	Transform translator = MakeTranslation(&v1);
+	Vector3 v; v.x = -eye->x; v.y = -eye->y; v.z = -eye->z;
+	Transform translator = MakeTranslation(&v);
 	TransformTrans(&translator, outT, outT);
 }
 
-void MakePerspectiveTrans(float y_fov, float aspect, float n, float f, Transform * outT)
+void MakePerspectiveTrans(float yfov, float aspect, float n, float f, Transform * outT)
 {
-	float a = 1.f/tanf(y_fov/2.f);
+	float a = 1.f/tanf(yfov*0.5f);
 	float planeDistInv = 1.f/(f - n);
 
 	outT->m[0][0] = a/aspect;
@@ -441,4 +441,18 @@ void InvertTrans(Transform * t, Transform *it)
 			}
 		}
 	}
+}
+
+float * MoveVec3sToFloatsArray(Vector3 * v, int numVec)
+{
+	float *f = malloc(sizeof(float)*numVec*3);
+	int i, findex=0;
+	for (i=0;i<numVec;++i)
+	{
+		f[findex] = v[i].x;
+		f[findex+1] = v[i].y;
+		f[findex+2] = v[i].z;
+		findex+=3;
+	}
+	return f;
 }

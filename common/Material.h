@@ -6,7 +6,7 @@ typedef struct
 	float red;
 	float green;
 	float blue;
-	float filler;
+	//float filler;
 } Material;
 
 #endif

@@ -68,5 +68,5 @@ void UnionBB(BoundingBox2D *b1, BoundingBox2D *b2, BoundingBox2D *outb);
 void UnionVec3(BoundingBox2D *b1, Vector3 *pt, BoundingBox2D *outb);
 int DoesIntersectBBox2D(BoundingBox2D *bbox, Ray * ray);
 void InvertTrans(Transform * t, Transform *it);
-
+float* MoveVec3sToFloatsArray(Vector3 * v, int numVec);
 #endif

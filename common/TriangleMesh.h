@@ -21,7 +21,7 @@ typedef struct
 	Material material;
 	int numTris;
 	int numVerts;
-	int *vertIndices;
+	unsigned short int *vertIndices;
 	Vector3 *vertPoints;
 	BoundingBox2D bbox;
 	int shapeID;
@@ -32,7 +32,6 @@ typedef struct
 	TriangleMesh * mesh;
 	BoundingBox2D bbox;
 	int * vert;
-	int * tex;
 } Triangle;
 
 void FormTriangleMesh(char * fileName, TriangleMesh * mesh, Transform * t, Material * mat);
