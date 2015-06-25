@@ -104,14 +104,14 @@ GLuint MakeShader(GLchar * vFile, GLchar * fFile)
     "void main()\n"
     "{\n"
     "	gl_Position = MVPMatrix4x4 * Positionv4;\n"
-	"}";
+	"}             ";
     GLchar fragText[4096] =
     "precision mediump float;\n"
     "uniform vec4 Colorv4;\n"
     "void main()\n"
     "{\n"
     "	gl_FragColor = Colorv4;\n"
-    "}";
+    "}             ";
 	GLuint vertSize = strlen(vertText)+8, fragSize = strlen(fragText)+8;
 	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "LENGTH: %i %i", vertSize, fragSize);
 

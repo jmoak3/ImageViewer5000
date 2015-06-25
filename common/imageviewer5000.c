@@ -31,7 +31,7 @@ static void LoadShader()
 	error = glGetError();
 	if (error>0) 
 	{
-		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "LOADSHADER ERROR %i", error);
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GET TECH ERROR %i", error);
 		assert(error==0);
 	}
 }
@@ -72,7 +72,7 @@ static void SetupDragonTrans()
 	//Transform meshRotY = RotateY(130);//130
 	//Transform meshRotX = RotateX(270.f);//270
 	//TransformTrans(&meshRotY, &meshRotX, &Model);
-	Vector3 move; move.x = 0.f; move.y = 0.f; move.z = 10.f*sinf(dt);
+	Vector3 move; move.x = 1.f*cosf(dt); move.y = 0.f; move.z = 2.f*sinf(dt);
 	Transform moveT = MakeTranslation(&move);
 	//TransformTrans(&moveT, &Model, &Model);
 
@@ -119,7 +119,7 @@ static void DrawDragon()
 
 void on_surface_created()
 {
-	glClearColor(0.f, 0.f, 0.0f, 0.0f);
+	glClearColor(0.f, 0.f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
@@ -188,7 +188,7 @@ void on_surface_changed(int width, int height)
 
 void on_draw_frame()
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
 	
 	SetupDragonTrans();
 
