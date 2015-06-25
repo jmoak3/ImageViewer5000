@@ -21,7 +21,7 @@ typedef struct
 	Material material;
 	int numTris;
 	int numVerts;
-	unsigned short int *vertIndices;
+	unsigned short *vertIndices;
 	Vector3 *vertPoints;
 	BoundingBox2D bbox;
 	int shapeID;

@@ -26,7 +26,8 @@ obj/local/armeabi-v7a/objs/imageviewer5000/__/__/common/imageviewer5000.o: \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/machine/kernel.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/sys/sysmacros.h \
  /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h \
- /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h \
+ /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/assert.h
 
 jni/../../common/imageviewer5000.h:
 
@@ -87,3 +88,5 @@ jni/../../common/Assets.h:
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/jni.h:
 
 /home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/android/log.h:
+
+/home/jmoak3/Documents/ExtractedLibraries/Android/Sdk/android-ndk-r10e/platforms/android-9/arch-arm/usr/include/assert.h:

@@ -446,7 +446,8 @@ void InvertTrans(Transform * t, Transform *it)
 float * MoveVec3sToFloatsArray(Vector3 * v, int numVec)
 {
 	float *f = malloc(sizeof(float)*numVec*3);
-	int i, findex=0;
+	int i;
+	int findex=0;
 	for (i=0;i<numVec;++i)
 	{
 		f[findex] = v[i].x;

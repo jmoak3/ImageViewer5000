@@ -2,13 +2,37 @@
 #include <stdio.h>
 #include "Assets.h"
 #include <android/log.h>
+#include <assert.h>
 
 void GetTech(GLuint tech, ColorShader *shader)
 {	
 	shader->tech = tech;
 	shader->position = glGetAttribLocation(tech, "Positionv4");
-	shader->mvpMatrix = glGetAttribLocation(tech, "MVPMatrix4x4");
-	shader->color = glGetAttribLocation(tech, "Colorv4");
+
+	GLuint error = glGetError();
+	if (error>0) 
+	{
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GET POSITIONSHADER ERROR %i", error);
+		assert(error==0);
+	}
+
+	shader->mvpMatrix = glGetUniformLocation(tech, "MVPMatrix4x4"); 
+
+	error = glGetError();
+	if (error>0) 
+	{
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GET MATRIXSHADER ERROR %i", error);
+		assert(error==0);
+	}
+
+	shader->color = glGetUniformLocation(tech, "Colorv4");
+
+	error = glGetError();
+	if (error>0) 
+	{
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GET COLORSHADER ERROR %i", error);
+		assert(error==0);
+	}   
 }
 
 GLuint CompileTech(GLenum type, GLchar* source, GLint length) 
@@ -23,9 +47,15 @@ GLuint CompileTech(GLenum type, GLchar* source, GLint length)
     {
         char* infoLog = malloc(sizeof(char) * infoLen);
     	glGetShaderInfoLog(shaderID, infoLen, NULL, infoLog);
-		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "FUCK COMPILE %s", infoLog);
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "ERROR COMPILE %s", infoLog);
         free(infoLog);
     }
+    GLuint error = glGetError();
+	if (error>0) 
+	{
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "COMPILER ERROR %i", error);
+		assert(error==0);
+	}
 
 	return shaderID;
 }
@@ -46,9 +76,15 @@ GLuint LinkTech(GLuint vertexshader, GLuint fragshader)
     {
         char* infoLog = malloc(sizeof(char) * infoLen);
   		glGetProgramInfoLog(techID, infoLen, NULL, infoLog);
-		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "FUCK LINK %s", infoLog);
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "ERROR LINK %s", infoLog);
         free(infoLog);
-    }
+    } 
+    GLuint error = glGetError();
+	if (error>0) 
+	{
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "LINKER ERROR %i", error);
+		assert(error==0);
+	}
 
 	return techID;
 }
@@ -76,7 +112,8 @@ GLuint MakeShader(GLchar * vFile, GLchar * fFile)
     "{\n"
     "	gl_FragColor = Colorv4;\n"
     "}";
-	GLuint vertSize = 119, fragSize = 96;
+	GLuint vertSize = strlen(vertText)+8, fragSize = strlen(fragText)+8;
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "LENGTH: %i %i", vertSize, fragSize);
 
 	//GLchar vertText[4096], fragText[4096];
 	//GLuint vertSize, fragSize;

@@ -4,11 +4,10 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.content.res.AssetManager;
 
-public class ImageViewer5000Renderer implements GLSurfaceView.Renderer {
+public class ImageViewer5000Renderer implements Renderer {
 	static {
 		System.loadLibrary("imageviewer5000");
 	}
