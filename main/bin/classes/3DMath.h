@@ -12,7 +12,7 @@ typedef struct
 	float x;
 	float y;
 	float z;
-	//float filler;
+	float filler;
 } Vector3;
 
 typedef struct 
@@ -51,6 +51,7 @@ Transform RotateZ(float angle);
 void TransformVec2(Transform * t, Vector2 * srcV, Vector2 * destV);
 void TransformVec3(Transform * t, Vector3 * srcV, Vector3 * destV);
 void TransformTrans(Transform * t, Transform *srcT, Transform *destT);
+void TransposeTrans(Transform * t, Transform *outT);
 void TransformRay(Transform * t, Ray * srcR, Ray * destR);
 void TransformBBox(Transform * t, BoundingBox2D * srcBox, BoundingBox2D * destBox);
 void MakeLookAtTrans(Vector3 * eye, Vector3 * center, Vector3 * up, Transform * outT);

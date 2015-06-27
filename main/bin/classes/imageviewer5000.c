@@ -48,7 +48,7 @@ static void LoadDragon()
 
 	verts = MoveVec3sToFloatsArray(DragonMesh->vertPoints, DragonMesh->numVerts);
 	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "copied verts: %i", 
-													DragonMesh->numVerts);;
+													DragonMesh->numVerts);
 	int i=0;
     for (i=0;i<DragonMesh->numVerts*3;i+=3)
 	{
@@ -64,7 +64,6 @@ static void LoadDragon()
 	}
 }
 
-
 static void SetupDragonTrans()
 {
 	static float dt = 0.f;
@@ -72,12 +71,16 @@ static void SetupDragonTrans()
 	//Transform meshRotY = RotateY(130);//130
 	//Transform meshRotX = RotateX(270.f);//270
 	//TransformTrans(&meshRotY, &meshRotX, &Model);
-	Vector3 move; move.x = 1.f*cosf(dt); move.y = 0.f; move.z = 2.f*sinf(dt);
-	Transform moveT = MakeTranslation(&move);
+	Vector3 move; move.x = 2.f*sin(dt); move.y = 0.f; move.z = 0.f;
+	Model = MakeTranslation(&move);
 	//TransformTrans(&moveT, &Model, &Model);
+	Transform tempTrans;
+	TransformTrans(&ViewProjection, &Model, &tempTrans);
+	TransposeTrans(&tempTrans, &ModelViewProjection);
 
-	TransformTrans(&ViewProjection, &moveT, &ModelViewProjection);
-	//__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Transformed Dragon %f", 5.f*sinf(dt));
+	Vector3 o; o.x = 0.f; o.y = 0.f; o.z = 0.f;
+	TransformVec3(&ModelViewProjection, &o, &o);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Transformed testvec %f %f %f", o.x, o.y, o.z);
 }
 
 static void DrawDragon()
@@ -96,30 +99,31 @@ static void DrawDragon()
 						(GLfloat*)ModelViewProjection.m);
 	glUniform4fv(Shader->color, 1, col);
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glVertexAttribPointer(Shader->position, 3, GL_FLOAT, GL_FALSE, 12, 0);
+	glVertexAttribPointer(Shader->position, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(Shader->position);
 	error = glGetError();
 	if (error>0) 
 	{
-		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "DRAWINDEX ERROR %i", error);
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "DRAWVERTEX ERROR %i", error);
 		assert(error==0);
 	}
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glDrawElements(GL_TRIANGLES, DragonMesh->numTris*3, GL_UNSIGNED_SHORT, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+	glDrawElements(GL_TRIANGLES, DragonMesh->numInds, GL_UNSIGNED_SHORT, (void*)0);
+	//glDrawElements(GL_POINTS, DragonMesh->numInds, GL_UNSIGNED_SHORT, (void*)0);
 	error = glGetError();
 	if (error>0) 
 	{
 		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "DRAWINDEX ERROR %i", error);
 		assert(error==0);
 	}	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void on_surface_created()
 {
-	glClearColor(0.f, 0.f, 0.0f, 1.0f);
+	glClearColor(0.f, 0.f, 0.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
@@ -135,7 +139,7 @@ void on_surface_created()
 
 	glGenBuffers(1, &vb);
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glBufferData(GL_ARRAY_BUFFER, DragonMesh->numVerts*4*3, 
+	glBufferData(GL_ARRAY_BUFFER, DragonMesh->numVerts*sizeof(float)*3, 
 						(GLvoid*)verts, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
@@ -148,7 +152,7 @@ void on_surface_created()
 
 	glGenBuffers(1, &ib);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, DragonMesh->numTris*6,
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, DragonMesh->numInds*sizeof(unsigned short),
 						(GLvoid*)DragonMesh->vertIndices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -162,34 +166,36 @@ void on_surface_created()
 
 void on_surface_changed(int width, int height)
 {
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "WIDTH HEIGHT %i %i", width, height);
 	glViewport(0, 0, width, height);
-	MakePerspectiveTrans(0.f, (float)width/(float)height, 1.f, 10.0f, &Projection);
 
-    GLuint error = glGetError();
+	GLuint error = glGetError();
 	if (error>0) 
 	{
 		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GLVIEWPORT ERROR %i", error);
 		assert(error==0);
 	}
 
-	Vector3 eye; eye.x = 0.f; eye.y = 0.f; eye.z = 0.f;
+	MakePerspectiveTrans(0.8f, (float)width/(float)height, 1.f, 10.f, &Projection);
+
+   	Vector3 eye; eye.x = 0.f; eye.y = 0.f; eye.z = -5.f;
 	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
 	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
 	MakeLookAtTrans(&eye, &center, &up, &View);
-	TransformTrans(&Projection, &View, &ViewProjection);
 
 	error = glGetError();
 	if (error>0) 
 	{
-		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "CHANGED ERROR %i", error);
+		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "SURFACECHANGED ERROR %i", error);
 		assert(error==0);
 	}
 }
 
 void on_draw_frame()
 {
-	glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	TransformTrans(&Projection, &View, &ViewProjection);
+
 	SetupDragonTrans();
 
 	DrawDragon();

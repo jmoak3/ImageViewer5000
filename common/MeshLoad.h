@@ -3,6 +3,6 @@
 
 #include "3DMath.h"
 
-int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds, int *numPts);
+int LoadMesh(char * fileName, unsigned short ** pindices, Vector3 ** ppoints, int *numInds, int *numPts);
 
 #endif

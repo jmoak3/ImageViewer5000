@@ -59,8 +59,8 @@ Transform RotateX(float angle)
 {
 	Transform t;
 
-	float sint = sinf((0.017453f*angle));
-	float cost = cosf((0.017453f*angle));
+	float sint = sin((0.017453f*angle));
+	float cost = cos((0.017453f*angle));
 	t.m[0][0] = 1.f;
 	t.m[0][1] = 0.f;
 	t.m[0][2] = 0.f;
@@ -87,8 +87,8 @@ Transform RotateY(float angle)
 {
 	Transform t;
 
-	float sint = sinf((0.017453f*angle));
-	float cost = cosf((0.017453f*angle));
+	float sint = sin((0.017453f*angle));
+	float cost = cos((0.017453f*angle));
 	t.m[0][0] = cost;
 	t.m[0][1] = 0.f;
 	t.m[0][2] = sint;
@@ -115,8 +115,8 @@ Transform RotateZ(float angle)
 {
 	Transform t;
 
-	float sint = sinf((0.017453f*angle));
-	float cost = cosf((0.017453f*angle));
+	float sint = sin((0.017453f*angle));
+	float cost = cos((0.017453f*angle));
 	t.m[0][0] = cost;
 	t.m[0][1] = -sint;
 	t.m[0][2] = 0.f;
@@ -165,6 +165,14 @@ void TransformTrans(Transform * t1, Transform *t2, Transform *destT)
 							t1->m[i][3] * t2->m[3][j];
 }
 
+void TransposeTrans(Transform * t, Transform *outT)
+{
+	int i,j;
+	for (i=0;i<4;++i)
+		for (j=0;j<4;++j)
+			outT->m[i][j]= t->m[j][i];
+}
+
 void TransformRay(Transform * t, Ray * srcR, Ray * destR)
 {
 	TransformVec3(t, &(srcR->o), &(destR->o));
@@ -195,17 +203,17 @@ void MakeLookAtTrans(Vector3 * eye, Vector3 * center, Vector3 * up, Transform * 
 	CrossVec3(&s, &forward, &t);
 
 	outT->m[0][0] =  s.x;
-	outT->m[0][1] =  t.x;
-	outT->m[0][2] = -forward.x;
+	outT->m[0][1] =  s.y;
+	outT->m[0][2] =  s.z;
 	outT->m[0][3] =   0.f;
 
-	outT->m[1][0] =  s.y;
+	outT->m[1][0] =  t.x;
 	outT->m[1][1] =  t.y;
-	outT->m[1][2] = -forward.y;
+	outT->m[1][2] =  t.z;
 	outT->m[1][3] =   0.f;
 
-	outT->m[2][0] =  s.z;
-	outT->m[2][1] =  t.z;
+	outT->m[2][0] = -forward.x;
+	outT->m[2][1] = -forward.y;
 	outT->m[2][2] = -forward.z;
 	outT->m[2][3] =   0.f;
 
@@ -216,12 +224,12 @@ void MakeLookAtTrans(Vector3 * eye, Vector3 * center, Vector3 * up, Transform * 
 
 	Vector3 v; v.x = -eye->x; v.y = -eye->y; v.z = -eye->z;
 	Transform translator = MakeTranslation(&v);
-	TransformTrans(&translator, outT, outT);
+	TransformTrans(outT, &translator, outT);
 }
 
 void MakePerspectiveTrans(float yfov, float aspect, float n, float f, Transform * outT)
 {
-	float a = 1.f/tanf(yfov*0.5f);
+	float a = 1.f/tan(yfov*0.5f);
 	float planeDistInv = 1.f/(f - n);
 
 	outT->m[0][0] = a/aspect;
@@ -237,11 +245,11 @@ void MakePerspectiveTrans(float yfov, float aspect, float n, float f, Transform 
 	outT->m[2][0] = 0.f;
 	outT->m[2][1] = 0.f;
 	outT->m[2][2] = -((f+n)*planeDistInv);
-	outT->m[2][3] = -1.f;
+	outT->m[2][3] = -((2.f*f*n)*planeDistInv);
 
 	outT->m[3][0] = 0.f;
 	outT->m[3][1] = 0.f;
-	outT->m[3][2] = -((2.f*f*n)*planeDistInv);
+	outT->m[3][2] = -1.f;
 	outT->m[3][3] = 0.f;
 }
 

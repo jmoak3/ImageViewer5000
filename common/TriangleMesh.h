@@ -20,6 +20,7 @@ typedef struct
 {
 	Material material;
 	int numTris;
+	int numInds;
 	int numVerts;
 	unsigned short *vertIndices;
 	Vector3 *vertPoints;

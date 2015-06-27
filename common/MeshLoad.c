@@ -132,7 +132,7 @@ static char text[] =
 "f 14//80 2//80 15//80\n"
 "end";
 
-int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds, int *numPts)
+int LoadMesh(char * fileName, unsigned short ** pindices, Vector3 ** ppoints, int *numInds, int *numPts)
 {
 	char *header;
 	//char text[4096]
@@ -145,7 +145,7 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds,
 	int sizePts = 36;
 	int sizeInds = 12;
 	Vector3 *points = malloc(sizeof(Vector3)*sizePts);
-	int *indices = malloc(sizeof(int)*sizeInds);
+	unsigned short *indices = malloc(sizeof(unsigned short)*sizeInds);
 	int done = 0;
 	while (!done && header!=NULL)
 	{
@@ -200,9 +200,9 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds,
 				++(*numInds);
 				if (*numInds >= sizeInds) 
 				{
-					int * temp = malloc(sizeof(int)*sizeInds*2);
-					memcpy(temp, indices, sizeof(int)*sizeInds);
-					int * tempInds = indices;
+					unsigned short * temp = malloc(sizeof(unsigned short)*sizeInds*2);
+					memcpy(temp, indices, sizeof(unsigned short)*sizeInds);
+					unsigned short * tempInds = indices;
 					indices = temp;
 					free(tempInds);
 					tempInds = 0;
@@ -217,12 +217,42 @@ int LoadMesh(char * fileName, int ** pindices, Vector3 ** ppoints, int *numInds,
 		}
 		header = strtok(NULL, " \n");
 	}
+
+	if (*numInds!=sizeInds)
+	{
+		unsigned short * temp = malloc(sizeof(unsigned short)*(*numInds));
+		memcpy(temp, indices, sizeof(unsigned short)*(*numInds));
+		unsigned short * tempInds = indices;
+		indices = temp;
+		free(tempInds);
+		tempInds = 0;
+		temp = 0;
+	}
+	
+
+	if (*numPts!=sizePts)
+	{
+		Vector3 * temp = malloc(sizeof(Vector3)*(*numPts));
+		memcpy(temp, points, sizeof(Vector3)*(*numPts));
+		Vector3 * tempPoints = points;
+		points = temp;
+		free(tempPoints);
+		tempPoints = 0;
+		temp = 0;
+	}
+
+
+
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "num inds: %i", 
+													*numInds);
     int i=0;
     for (i=0;i<*numInds;i+=3)
 	{
 		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "ind %i %i %i", 
 												indices[i], indices[i+1], indices[i+2]);
 	}
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "num verts: %i", 
+													*numPts);
     for (i=0;i<*numPts;++i)
 	{
 		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "vert %f %f %f", 

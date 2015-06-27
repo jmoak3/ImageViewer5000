@@ -8,7 +8,7 @@
 void FormTriangleMesh(char * fileName, TriangleMesh * mesh, Transform * t, Material * mat)
 {
 	//printf("Inside FormTriangleMesh\n");
-	int ** indices = malloc(sizeof(int*));
+	unsigned short ** indices = malloc(sizeof(int*));
 	Vector3 ** points = malloc(sizeof(Vector3*));
 	int numInd = 0;
 	int numPts = 0;
@@ -19,6 +19,7 @@ void FormTriangleMesh(char * fileName, TriangleMesh * mesh, Transform * t, Mater
 	mesh->material = *mat;
 	mesh->numTris = numInd/3;
 	mesh->numVerts = numPts;
+	mesh->numInds = numInd;
 	mesh->vertIndices = *indices;
 	mesh->vertPoints = *points;
 

@@ -26,6 +26,7 @@ public class ImageViewer5000Renderer implements Renderer {
 	
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		System.out.println("LOG SurfaceChange");
 		on_surface_changed(width, height);
 	}
 	

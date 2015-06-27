@@ -1,9 +1,6 @@
 package com.example.imageviewer5000;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -26,10 +23,10 @@ public class MainActivity extends Activity {
 		final boolean supportsES2 = configurationInfo.reqGlEsVersion >= 0x20000;
 		
 
-		//if (supportsES2) {
-		mGLSurfaceView.setEGLContextClientVersion(2);
-		mGLSurfaceView.setRenderer(new ImageViewer5000Renderer(this));
-		//}
+		if (supportsES2) {
+			mGLSurfaceView.setEGLContextClientVersion(2);
+			mGLSurfaceView.setRenderer(new ImageViewer5000Renderer(this));
+		}
 		
 		setContentView(mGLSurfaceView);
 	}
@@ -38,6 +35,7 @@ public class MainActivity extends Activity {
 	{
 		// The activity must call the GL surface view's onResume() on activity onResume().
 		super.onResume();
+		System.out.println("LOG onResume");
 		mGLSurfaceView.onResume();
 	}
 
@@ -46,6 +44,7 @@ public class MainActivity extends Activity {
 	{
 		// The activity must call the GL surface view's onPause() on activity onPause().
 		super.onPause();
+		System.out.println("LOG onPaused");
 		mGLSurfaceView.onPause();
 	}
 }
