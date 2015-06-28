@@ -77,10 +77,6 @@ static void SetupDragonTrans()
 	Transform tempTrans;
 	TransformTrans(&ViewProjection, &Model, &tempTrans);
 	TransposeTrans(&tempTrans, &ModelViewProjection);
-
-	Vector3 o; o.x = 0.f; o.y = 0.f; o.z = 0.f;
-	TransformVec3(&ModelViewProjection, &o, &o);
-	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Transformed testvec %f %f %f", o.x, o.y, o.z);
 }
 
 static void DrawDragon()

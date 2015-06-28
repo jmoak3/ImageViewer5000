@@ -77,10 +77,6 @@ static void SetupDragonTrans()
 	Transform tempTrans;
 	TransformTrans(&ViewProjection, &Model, &tempTrans);
 	TransposeTrans(&tempTrans, &ModelViewProjection);
-
-	Vector3 o; o.x = 0.f; o.y = 0.f; o.z = 0.f;
-	TransformVec3(&ModelViewProjection, &o, &o);
-	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Transformed testvec %f %f %f", o.x, o.y, o.z);
 }
 
 static void DrawDragon()
@@ -111,7 +107,6 @@ static void DrawDragon()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
 	glDrawElements(GL_TRIANGLES, DragonMesh->numInds, GL_UNSIGNED_SHORT, (void*)0);
-	//glDrawElements(GL_POINTS, DragonMesh->numInds, GL_UNSIGNED_SHORT, (void*)0);
 	error = glGetError();
 	if (error>0) 
 	{

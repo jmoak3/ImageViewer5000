@@ -19,7 +19,7 @@ void GetTech(GLuint tech, ColorShader *shader)
 	shader->mvpMatrix = glGetUniformLocation(tech, "MVPMatrix4x4"); 
 
 	error = glGetError();
-	if (error>0) 
+	if (error>0)
 	{
 		__android_log_print(ANDROID_LOG_INFO, "NATIVE", "GET MATRIXSHADER ERROR %i", error);
 		assert(error==0);
@@ -98,28 +98,13 @@ GLuint BuildTech(GLchar * vert, GLint vertLength, GLchar * frag, GLint fragLengt
 
 GLuint MakeShader(GLchar * vFile, GLchar * fFile)
 {
-	GLchar vertText[4096] = 
-    "uniform mat4 MVPMatrix4x4;\n"
-    "attribute vec4 Positionv4;\n"
-    "void main()\n"
-    "{\n"
-    "	gl_Position = MVPMatrix4x4 * Positionv4;\n"
-	"}             ";
-    GLchar fragText[4096] =
-    "precision mediump float;\n"
-    "uniform vec4 Colorv4;\n"
-    "void main()\n"
-    "{\n"
-    "	gl_FragColor = Colorv4;\n"
-    "}             ";
-	GLuint vertSize = strlen(vertText)+8, fragSize = strlen(fragText)+8;
-	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "LENGTH: %i %i", vertSize, fragSize);
+	GLchar vertText[4096], fragText[4096];
+	GLuint vertSize, fragSize;
 
-	//GLchar vertText[4096], fragText[4096];
-	//GLuint vertSize, fragSize;
-
-    //GetAsset(vFile, &vertText, &vertSize);
-    //GetAsset(fFile, &fragText, &fragSize);
+    GetAsset(vFile, &vertText, &vertSize);
+    GetAsset(fFile, &fragText, &fragSize);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "SHADER %s", vertText);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "SHADER %s", fragText);
 	GLuint techID = BuildTech(vertText, vertSize, fragText, fragSize);
 
 	return techID;
