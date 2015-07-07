@@ -71,7 +71,7 @@ static void SetupDragonTrans()
 	//Transform meshRotY = RotateY(130);//130
 	//Transform meshRotX = RotateX(270.f);//270
 	//TransformTrans(&meshRotY, &meshRotX, &Model);
-	Vector3 move; move.x = 2.f*sin(dt); move.y = 0.f; move.z = 0.f;
+	Vector3 move; move.x = 0.f; move.y = 0.f; move.z = 0.f;
 	Model = MakeTranslation(&move);
 	//TransformTrans(&moveT, &Model, &Model);
 	Transform tempTrans;
@@ -173,10 +173,8 @@ void on_surface_changed(int width, int height)
 
 	MakePerspectiveTrans(0.8f, (float)width/(float)height, 1.f, 10.f, &Projection);
 
-   	Vector3 eye; eye.x = 0.f; eye.y = 0.f; eye.z = -5.f;
-	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
-	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
-	MakeLookAtTrans(&eye, &center, &up, &View);
+   	
+	
 
 	error = glGetError();
 	if (error>0) 
@@ -186,9 +184,43 @@ void on_surface_changed(int width, int height)
 	}
 }
 
-void on_draw_frame()
+void on_draw_frame(float az, float pch, float rll)
 {
+	static float y;
+	static float p;
+	static float r;
+
+	y = az;
+	p = pch;
+	r = rll;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	Vector3 eye; eye.x = 0.f; eye.y = 0.f; eye.z = -8.f;
+
+	Transform rot;
+	Transform yaw = RotateY(-y+1.6f);
+	Transform pitch = RotateX(p);
+	Transform roll = RotateZ(r);
+
+	rot = pitch;
+	TransformTrans(&yaw, &rot, &rot);
+	TransformTrans(&roll, &rot, &rot);
+
+	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
+	Vector3 temp;
+	SubVec3(&center, &eye, &temp);
+	TransformVec3(&rot, &temp, &temp);
+	AddVec3(&eye, &temp, &center);
+
+	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
+	TransformVec3(&rot, &up, &up);
+	NormalizeVec3(&up, &up);
+
+	MakeLookAtTrans(&eye, &center, &up, &View);
+
+	//__android_log_print(ANDROID_LOG_INFO, "NATIVE", "POSITION %f %f %f", az, pch, rll);
+
 	TransformTrans(&Projection, &View, &ViewProjection);
 
 	SetupDragonTrans();

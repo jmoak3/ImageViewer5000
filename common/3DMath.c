@@ -59,8 +59,8 @@ Transform RotateX(float angle)
 {
 	Transform t;
 
-	float sint = sin((0.017453f*angle));
-	float cost = cos((0.017453f*angle));
+	float sint = sin(angle);
+	float cost = cos(angle);
 	t.m[0][0] = 1.f;
 	t.m[0][1] = 0.f;
 	t.m[0][2] = 0.f;
@@ -87,8 +87,8 @@ Transform RotateY(float angle)
 {
 	Transform t;
 
-	float sint = sin((0.017453f*angle));
-	float cost = cos((0.017453f*angle));
+	float sint = sin(angle);
+	float cost = cos(angle);
 	t.m[0][0] = cost;
 	t.m[0][1] = 0.f;
 	t.m[0][2] = sint;
@@ -115,8 +115,8 @@ Transform RotateZ(float angle)
 {
 	Transform t;
 
-	float sint = sin((0.017453f*angle));
-	float cost = cos((0.017453f*angle));
+	float sint = sin(angle);
+	float cost = cos(angle);
 	t.m[0][0] = cost;
 	t.m[0][1] = -sint;
 	t.m[0][2] = 0.f;

@@ -17,8 +17,8 @@ JNIEXPORT void JNICALL Java_com_example_imageviewer5000_ImageViewer5000Renderer_
 }
 
 JNIEXPORT void JNICALL Java_com_example_imageviewer5000_ImageViewer5000Renderer_on_1draw_1frame
-    (JNIEnv * env, jclass cls) {
-    on_draw_frame();
+    (JNIEnv * env, jclass cls, jfloat az, jfloat pch, jfloat rll) {
+    on_draw_frame(az, pch, rll);
 }
 
 
