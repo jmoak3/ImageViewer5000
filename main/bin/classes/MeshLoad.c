@@ -8,7 +8,7 @@
 int LoadMesh(char * fileName, unsigned short ** pindices, Vector3 ** ppoints, int *numInds, int *numPts)
 {
 	char *header;
-	char text[8192];
+	char text[198443];
 	int length;
 	GetAsset(fileName, &text, &length);
 	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "MESH %4096s", text);

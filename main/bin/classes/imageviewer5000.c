@@ -184,34 +184,75 @@ void on_surface_changed(int width, int height)
 	}
 }
 
+#define SAMPLES 16
+void calcMovingAvg(float* data, float * out)
+{
+	*out = 0.f;
+	int i;
+	for (i=0;i<SAMPLES;++i)
+	{
+		*out += data[i];
+	}
+	*out /= (float)SAMPLES;
+}
+
 void on_draw_frame(float az, float pch, float rll)
 {
-	static float y;
-	static float p;
-	static float r;
-
-	y = az;
-	p = pch;
-	r = rll;
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	
+	static float yaws[SAMPLES];
+	static float pitches[SAMPLES];
+	static float rolls[SAMPLES];
+	static int index = -1;
+
+	float y,p,r;
+	float a=az, b=rll, c=pch;
+	if (index<0)
+	{
+		int i; for (i=0;i<SAMPLES;++i)
+		{
+			yaws[i] = a;
+			pitches[i] = b;
+			rolls[i] = c;
+		}
+		index = 0;
+	}
+	else
+	{
+		yaws[index] = a;
+		pitches[index] = b;
+		rolls[index] = c;
+		calcMovingAvg(yaws, &y);
+		calcMovingAvg(pitches, &p);
+		calcMovingAvg(rolls, &r);
+		index = (index+1)%SAMPLES;
+	}
 	
 	Vector3 eye; eye.x = 0.f; eye.y = 0.f; eye.z = -8.f;
 
+	//Transform original = Rotate;
+
+	y = (y - 2.7f);
+	p = -(p + 3.14159f);
+	r = (r);
+
+
 	Transform rot;
-	Transform yaw = RotateY(-y+1.6f);
+	Transform yaw = RotateY(y);
 	Transform pitch = RotateX(p);
 	Transform roll = RotateZ(r);
 
-	rot = pitch;
-	TransformTrans(&yaw, &rot, &rot);
+	//TransformTrans(&pitch, &original, &rot);
+	rot = yaw;
+	TransformTrans(&pitch, &rot, &rot);
 	TransformTrans(&roll, &rot, &rot);
 
 	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
-	Vector3 temp;
-	SubVec3(&center, &eye, &temp);
-	TransformVec3(&rot, &temp, &temp);
-	AddVec3(&eye, &temp, &center);
+	//Vector3 temp;s
+	//SubVec3(&center, &eye, &temp);
+	TransformVec3(&rot, &eye, &center);
+	//AddVec3(&eye, &eye, &center);
 
 	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
 	TransformVec3(&rot, &up, &up);
@@ -219,7 +260,9 @@ void on_draw_frame(float az, float pch, float rll)
 
 	MakeLookAtTrans(&eye, &center, &up, &View);
 
-	//__android_log_print(ANDROID_LOG_INFO, "NATIVE", "POSITION %f %f %f", az, pch, rll);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Z POSITION %f %f %f", y, p, r);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Z LOOK %f %f %f", center.x, center.y, center.z);
+	__android_log_print(ANDROID_LOG_INFO, "NATIVE", "Z UP %f %f %f", up.x, up.y, up.z);
 
 	TransformTrans(&Projection, &View, &ViewProjection);
 
