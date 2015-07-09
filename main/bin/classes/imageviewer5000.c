@@ -184,7 +184,7 @@ void on_surface_changed(int width, int height)
 	}
 }
 
-#define SAMPLES 16
+#define SAMPLES 8
 void calcMovingAvg(float* data, float * out)
 {
 	*out = 0.f;
@@ -233,7 +233,7 @@ void on_draw_frame(float az, float pch, float rll)
 
 	//Transform original = Rotate;
 
-	y = (y - 2.7f);
+	y = (y);
 	p = -(p + 3.14159f);
 	r = (r);
 
@@ -241,18 +241,18 @@ void on_draw_frame(float az, float pch, float rll)
 	Transform rot;
 	Transform yaw = RotateY(y);
 	Transform pitch = RotateX(p);
-	Transform roll = RotateZ(r);
+	//Transform roll = RotateZ(r);
 
 	//TransformTrans(&pitch, &original, &rot);
 	rot = yaw;
 	TransformTrans(&pitch, &rot, &rot);
-	TransformTrans(&roll, &rot, &rot);
+	//TransformTrans(&roll, &rot, &rot);
 
 	Vector3 center; center.x = 0.f; center.y = 0.f; center.z = 0.f;
-	//Vector3 temp;s
-	//SubVec3(&center, &eye, &temp);
-	TransformVec3(&rot, &eye, &center);
-	//AddVec3(&eye, &eye, &center);
+	Vector3 temp;
+	SubVec3(&center, &eye, &temp);
+	TransformVec3(&rot, &temp, &temp);
+	AddVec3(&eye, &temp, &center);
 
 	Vector3 up; up.x = 0.f; up.y = 1.f; up.z = 0.f;
 	TransformVec3(&rot, &up, &up);
